@@ -19,12 +19,39 @@
             + `&email=${encodeURIComponent(email)}`;
 
         window.location.href = deeplink;
+
+        const tentarFecharPagina = () => {
+            try {
+                window.close();
+                window.open('', '_self');
+                window.close();
+            } catch (_) {
+                // sem ação: navegador pode bloquear fechamento programático
+            }
+        };
+
+        setTimeout(tentarFecharPagina, 800);
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                setTimeout(tentarFecharPagina, 300);
+            }
+        });
     </script>
 
-    <p>Abrindo MI Electric... <a href="#" id="link">Clique aqui se não abrir automaticamente.</a></p>
+    <p id="status">Abrindo MI Electric... <a href="#" id="link">Clique aqui se não abrir automaticamente.</a></p>
 
     <script>
         document.getElementById('link').href = deeplink;
+
+        setTimeout(() => {
+            if (!document.hidden) {
+                document.getElementById('status').innerHTML =
+                    'Se o aplicativo já abriu, você pode fechar esta aba. ' +
+                    '<a href="#" id="link2">Clique aqui para tentar abrir novamente.</a>';
+                document.getElementById('link2').href = deeplink;
+            }
+        }, 2000);
     </script>
 </body>
 </html>
