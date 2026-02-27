@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Abrindo MI Electric...</title>
+</head>
+<body>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        const recordId = params.get('recordId') || '';
+        const cliente = params.get('cliente') || '';
+        const nomeResponsavel = params.get('Nomeresponsavel') || '';
+        const email = params.get('email') || '';
+
+        const deeplink = `mielectric://novo?recordId=${encodeURIComponent(recordId)}`
+            + `&cliente=${encodeURIComponent(cliente)}`
+            + `&Nomeresponsavel=${encodeURIComponent(nomeResponsavel)}`
+            + `&email=${encodeURIComponent(email)}`;
+
+        window.location.href = deeplink;
+    </script>
+
+    <p>Abrindo MI Electric... <a href="#" id="link">Clique aqui se não abrir automaticamente.</a></p>
+
+    <script>
+        document.getElementById('link').href = deeplink;
+    </script>
+</body>
+</html>
+```
+
+---
+
+## ✅ URL do botão no Salesforce (agora é https:// válido!)
+
+Supondo que você hospede em `https://mielectric.com.br/open`:
+```
+https://mielectric.com.br/open?recordId={!Opportunity.Proposta__c}&cliente={!URLENCODE(Opportunity.MI_Nome_Conta__c)}&Nomeresponsavel={!URLENCODE(Opportunity.MI_Nome_Responsavel__c)}&email={!URLENCODE(Opportunity.MI_Email_Responsavel__c)}
